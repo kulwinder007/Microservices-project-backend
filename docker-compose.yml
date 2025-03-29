@@ -1,0 +1,76 @@
+version: '3'
+services:
+  api_gateway:
+    build: ./api_gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - USER_SERVICE_URL=http://user_service:5001
+      - AUTH_SERVICE_URL=http://auth_service:5002
+      - TASK_SERVICE_URL=http://task_service:5003
+    depends_on:
+      - user_service
+      - auth_service
+      - task_service
+
+  user_service:
+    build: ./user_service
+    ports:
+      - "5001:5001"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/user_db  #create secrets and update db string
+    depends_on:
+      - user_db
+    restart: always
+
+  auth_service:
+    build: ./auth_service
+    ports:
+      - "5002:5002"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/auth_db  #create secrets and update db string
+    depends_on:
+      - auth_db
+    restart: always
+
+  task_service:
+    build: ./task_service
+    ports:
+      - "5003:5003"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/task_db  #create secrets and update db string
+    depends_on:
+      - task_db
+    restart: always
+
+  user_db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=user_db
+      - POSTGRES_USER=postgres      #Update username
+      - POSTGRES_PASSWORD=postgres  #Update password
+    volumes:
+      - user_db_data:/var/lib/postgresql/data
+
+  auth_db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=auth_db
+      - POSTGRES_USER=postgres      #Update username
+      - POSTGRES_PASSWORD=postgres  #Update password
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+
+  task_db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=task_db
+      - POSTGRES_USER=postgres      #Update username
+      - POSTGRES_PASSWORD=postgres  #Update password
+    volumes:
+      - task_db_data:/var/lib/postgresql/data
+
+volumes:
+  user_db_data:
+  auth_db_data:
+  task_db_data:
