@@ -6,9 +6,9 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-USER_SERVICE_URL = os.getenv('USER_SERVICE_URL', 'http://user_service:5001')
-AUTH_SERVICE_URL = os.getenv('AUTH_SERVICE_URL', 'http://auth_service:5002')
-TASK_SERVICE_URL = os.getenv('TASK_SERVICE_URL', 'http://task_service:5003')
+USER_SERVICE_URL = os.getenv('USER_SERVICE_URL', 'http://user_service:5001')    #UPDATE TO USER_SERVICE_URL=http://<INTERNAL_LB_IP_ADDRESS>:5001
+AUTH_SERVICE_URL = os.getenv('AUTH_SERVICE_URL', 'http://auth_service:5002')    #UPDATE TO AUTH_SERVICE_URL=http://<INTERNAL_LB_IP_ADDRESS>:5001
+TASK_SERVICE_URL = os.getenv('TASK_SERVICE_URL', 'http://task_service:5003')    #UPDATE TO TASK_SERVICE_URL=http://<INTERNAL_LB_IP_ADDRESS>:5001
 
 def forward_request(service_url, path, method='GET', data=None, headers=None):
     url = f"{service_url}{path}"

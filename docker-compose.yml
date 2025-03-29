@@ -4,7 +4,7 @@ services:
   api_gateway:
     build: ./api_gateway
     ports:
-      - "8080:8080"
+      - "4999:4999"
     environment:
       - USER_SERVICE_URL=http://user_service.local:5001   #UPDATE TO USER_SERVICE_URL=http://<INTERNAL_LB_IP_ADDRESS>:5001
       - AUTH_SERVICE_URL=http://auth_service.local:5002   #UPDATE TO AUTH_SERVICE_URL=http://<INTERNAL_LB_IP_ADDRESS>:5001
