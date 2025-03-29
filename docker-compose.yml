@@ -6,9 +6,9 @@ services:
     ports:
       - "4999:4999"
     environment:
-      - USER_SERVICE_URL=http://user_service.local:5001   #UPDATE TO USER_SERVICE_URL=http://<INTERNAL_LB_IP_ADDRESS>:5001
-      - AUTH_SERVICE_URL=http://auth_service.local:5002   #UPDATE TO AUTH_SERVICE_URL=http://<INTERNAL_LB_IP_ADDRESS>:5001
-      - TASK_SERVICE_URL=http://task_service.local:5003   #UPDATE TO TASK_SERVICE_URL=http://<INTERNAL_LB_IP_ADDRESS>:5001
+      - USER_SERVICE_URL=http://localhost:5001   #UPDATE TO USER_SERVICE_URL=http://<INTERNAL_LB_IP_ADDRESS>:5001
+      - AUTH_SERVICE_URL=http://localhost:5002   #UPDATE TO AUTH_SERVICE_URL=http://<INTERNAL_LB_IP_ADDRESS>:5001
+      - TASK_SERVICE_URL=http://localhost:5003   #UPDATE TO TASK_SERVICE_URL=http://<INTERNAL_LB_IP_ADDRESS>:5001
     depends_on:
       - user_service
       - auth_service
@@ -23,8 +23,6 @@ services:
       #- DATABASE_URL=postgresql://user_service_user:${USER_SERVICE_DB_PASSWORD}@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/user_db
     env_file:
       - .env
-    depends_on:
-      - aws_rds
     restart: always
 
   auth_service:
@@ -36,8 +34,6 @@ services:
       #- DATABASE_URL=postgresql://auth_service_user:${AUTH_SERVICE_DB_PASSWORD}@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/auth_db
     env_file:
       - .env
-    depends_on:
-      - aws_rds
     restart: always
 
   task_service:
@@ -49,8 +45,6 @@ services:
       #- DATABASE_URL=postgresql://auth_service_user:${AUTH_SERVICE_DB_PASSWORD}@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/auth_db
     env_file:
       - .env
-    depends_on:
-      - aws_rds
     restart: always
 
 networks:
