@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   api_gateway:
     build: ./api_gateway
@@ -18,9 +19,11 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/user_db  #create secrets and update db string
+      - DATABASE_URL=postgresql://user_service_user:${USER_SERVICE_DB_PASSWORD}@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/user_db
+    env_file:
+      - .env
     depends_on:
-      - user_db
+      - aws_rds
     restart: always
 
   auth_service:
@@ -28,9 +31,11 @@ services:
     ports:
       - "5002:5002"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/auth_db  #create secrets and update db string
+      - DATABASE_URL=postgresql://auth_service_user:${AUTH_SERVICE_DB_PASSWORD}@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/auth_db
+    env_file:
+      - .env
     depends_on:
-      - auth_db
+      - aws_rds
     restart: always
 
   task_service:
@@ -38,39 +43,13 @@ services:
     ports:
       - "5003:5003"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/task_db  #create secrets and update db string
+      - DATABASE_URL=postgresql://task_service_user:${TASK_SERVICE_DB_PASSWORD}@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/task_db
+    env_file:
+      - .env
     depends_on:
-      - task_db
+      - aws_rds
     restart: always
 
-  user_db:
-    image: postgres:13
-    environment:
-      - POSTGRES_DB=user_db
-      - POSTGRES_USER=postgres      #Update username
-      - POSTGRES_PASSWORD=postgres  #Update password
-    volumes:
-      - user_db_data:/var/lib/postgresql/data
-
-  auth_db:
-    image: postgres:13
-    environment:
-      - POSTGRES_DB=auth_db
-      - POSTGRES_USER=postgres      #Update username
-      - POSTGRES_PASSWORD=postgres  #Update password
-    volumes:
-      - auth_db_data:/var/lib/postgresql/data
-
-  task_db:
-    image: postgres:13
-    environment:
-      - POSTGRES_DB=task_db
-      - POSTGRES_USER=postgres      #Update username
-      - POSTGRES_PASSWORD=postgres  #Update password
-    volumes:
-      - task_db_data:/var/lib/postgresql/data
-
-volumes:
-  user_db_data:
-  auth_db_data:
-  task_db_data:
+networks:
+  default:
+    driver: bridge
