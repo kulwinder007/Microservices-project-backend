@@ -19,7 +19,7 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - DATABASE_URL=postgresql://user_service_user:$yourpassword@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/user_db
+      - DATABASE_URL=postgresql://user_service_user:yourpassword@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/user_db
       #- DATABASE_URL=postgresql://user_service_user:${USER_SERVICE_DB_PASSWORD}@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/user_db
     env_file:
       - .env
@@ -32,7 +32,7 @@ services:
     ports:
       - "5002:5002"
     environment:
-      - DATABASE_URL=postgresql://auth_service_user:$yourpassword@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/auth_db
+      - DATABASE_URL=postgresql://auth_service_user:yourpassword@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/auth_db
       #- DATABASE_URL=postgresql://auth_service_user:${AUTH_SERVICE_DB_PASSWORD}@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/auth_db
     env_file:
       - .env
@@ -45,7 +45,7 @@ services:
     ports:
       - "5003:5003"
     environment:
-      - DATABASE_URL=postgresql://task_service_user:$yourpassword@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/task_db
+      - DATABASE_URL=postgresql://task_service_user:yourpassword@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/task_db
       #- DATABASE_URL=postgresql://auth_service_user:${AUTH_SERVICE_DB_PASSWORD}@database-1.c61cck4osj3q.us-east-1.rds.amazonaws.com:5432/auth_db
     env_file:
       - .env
